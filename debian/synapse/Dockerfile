@@ -12,13 +12,19 @@ RUN apt-get update && apt-get install -y curl libcurl4-openssl-dev libxml2-dev f
 RUN wget --no-check-certificate https://gist.githubusercontent.com/kdaily/61d7f12707b1538404cf/raw/7c3fbcd8fab976a0bdf123174091bfd741298a69/installRSynapseClient.R
 RUN Rscript installRSynapseClient.R
 
-## Install stuff for GUI
-RUN apt-get install -y x-window-system vnc4server
-RUN vncserver :0
+## Install stuff for VNC
+RUN apt-get install -y x11vnc
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 5900
+
+## To have a container run a persistent task, we use the very simple supervisord as recommended in Docker documentation.
+CMD ["/usr/bin/supervisord"] 
 
 ## Install Cytoscape
 RUN apt-get install -y openjdk-7-jre
-RUN wget http://chianti.ucsd.edu/cytoscape-3.2.0/Cytoscape_3_2_0_unix.sh
+## RUN wget http://chianti.ucsd.edu/cytoscape-3.2.0/Cytoscape_3_2_0_unix.sh
 
 ## ## Download and install RStudio server
 ## ## Attempts to get detect latest version, otherwise falls back to version given in $VER
@@ -48,7 +54,5 @@ RUN wget http://chianti.ucsd.edu/cytoscape-3.2.0/Cytoscape_3_2_0_unix.sh
 
 ## EXPOSE 8787
 
-## To have a container run a persistent task, we use the very simple supervisord as recommended in Docker documentation.
-## CMD ["/usr/bin/supervisord"] 
 
 
