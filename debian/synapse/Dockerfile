@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y curl libcurl4-openssl-dev libxml2-dev f
 RUN wget --no-check-certificate https://gist.githubusercontent.com/kdaily/61d7f12707b1538404cf/raw/7c3fbcd8fab976a0bdf123174091bfd741298a69/installRSynapseClient.R
 RUN Rscript installRSynapseClient.R
 
+## Install stuff for GUI
+RUN apt-get install -y x-window-system
+
 ## Install Cytoscape
 RUN apt-get install -y openjdk-7-jre
 RUN wget http://chianti.ucsd.edu/cytoscape-3.2.0/Cytoscape_3_2_0_unix.sh
