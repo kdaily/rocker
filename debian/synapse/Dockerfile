@@ -13,7 +13,8 @@ RUN wget --no-check-certificate https://gist.githubusercontent.com/kdaily/61d7f1
 RUN Rscript installRSynapseClient.R
 
 ## Install stuff for GUI
-RUN apt-get install -y x-window-system
+RUN apt-get install -y x-window-system vnc4server
+RUN vncserver :0
 
 ## Install Cytoscape
 RUN apt-get install -y openjdk-7-jre
